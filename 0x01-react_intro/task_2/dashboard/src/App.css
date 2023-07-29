@@ -21,10 +21,14 @@
   text-align: left;
 }
 
+.App-body input {
+  margin-right: 10px;
+}
+
 .App-footer {
   border-top: 3px solid #e0354b;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   font-style: italic;
 }
