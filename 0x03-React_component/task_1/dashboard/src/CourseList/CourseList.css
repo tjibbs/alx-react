@@ -1,19 +1,25 @@
 table {
-	display: table;
-	border: 1px solid;
-	border-collapse: collapse;
-	margin-left: auto;
-	margin-right: auto;
-	width: 90%;
+  margin-top: 2em;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 1.2rem;
+  margin-bottom: 15em;
 }
 
-tr th {
-	text-align: start;
-	border-bottom: 1px solid;
+th {
+  border-bottom: 1px solid #ddd;
 }
 
-th[colSpan="2"] {
-	text-align: center;
-	border: 1px solid;
-	padding-bottom: 1rem;
+th,
+td {
+  width: 80%;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+tr:nth-child(2) {
+  text-align: left;
 }

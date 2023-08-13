@@ -1,25 +1,26 @@
-import React from 'react'
-import propTypes from 'prop-types'
+import React from "react";
+import "./Notifications.css";
+import PropTypes from "prop-types";
 
-
-const NotificationItem = ({ type, value, html }) => {
-	// props:
-	// - type: string, required, default: 'default'
-	// - value: string
-	// - html: object with key '__html' and value: string
-	if ((type && value) && (typeof type === 'string' && typeof value === 'string') && (!html)) return(<li data-notification-type={type}>{value}</li>)
-	if ((!type) && (html) && (html.__html)) return(<li data-notification-type="default" dangerouslySetInnerHTML={html}></li>)
-	if ((type) && (html) && (html.__html)) return(<li data-notification-type={type} dangerouslySetInnerHTML={html}></li>)
-	return(<li data-notification-type="default">NotificationItem: invalid props</li>)
+function NotificationItem({ type, html, value }) {
+  return (
+    <>
+      {type && value ? <li data-notification-type={type}>{value}</li> : null}
+      {html ? <li data-urgent dangerouslySetInnerHTML={{ __html: html }}></li> : null}
+    </>
+  );
 }
-
 
 NotificationItem.propTypes = {
-	type: propTypes.string,
-	value: propTypes.string,
-	html: propTypes.shape({
-		__html: propTypes.string,
-	})
-}
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  __html: PropTypes.shape({
+    html: PropTypes.string,
+  }),
+};
 
-export default NotificationItem
+NotificationItem.defaultProps = {
+  type: "default",
+};
+
+export default NotificationItem;
