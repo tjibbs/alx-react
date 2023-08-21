@@ -1,1 +1,2 @@
-## 0x03. React component
+# alx-react
+Introduction to react-component

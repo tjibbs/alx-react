@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 const NotificationItemShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   html: PropTypes.shape({
-    __html: PropTypes.string,
-  }),
+    __html: PropTypes.string.isRequired,
+  }).isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
 });
 
 export default NotificationItemShape;

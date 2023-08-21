@@ -1,25 +1,25 @@
-.Notifications {
-  padding: 1em;
-  border: 2px dashed red;
-  position: absolute;
-  top: 1.8em;
-  right: 0;
-}
-
-.notification-header {
-  display: flex;
-  justify-content: space-between;
-}
-
 .menuItem {
-  text-align: right;
+    text-align: right;
+    z-index: 1;
+}
+
+.Notifications {
+    padding: 0.5rem;
+    border: 1px dashed #e0354b;
+    position: absolute;
+    right: 1rem;
+    width: 25%;
+}
+
+.Notifications button img {
+    width: 10px;
 }
 
 [data-notification-type="default"] {
-  color: blue;
-}
-
+    color: #0d0563;
+  }
+  
 [data-urgent],
 [data-notification-type="urgent"] {
-  color: red;
+   color: #e0354b;
 }

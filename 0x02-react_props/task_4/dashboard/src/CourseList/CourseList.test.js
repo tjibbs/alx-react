@@ -3,26 +3,22 @@ import { shallow } from 'enzyme';
 import CourseList from './CourseList';
 
 describe('<CourseList />', () => {
-  const wrapper = shallow(<CourseList />);
-  it('renders without crashing', () => {
-    expect(wrapper.exists());
+  // Check that it renders CourseList component without crashing
+  it('renders CourseList component without crashing', () => {
+    shallow(<CourseList />);
   });
-  it('renders rows', () => {
-    const row = wrapper.find('CourseListRow');
-    expect(row).toHaveLength(5);
-    expect(row.at(0).prop('textFirstCell')).toEqual('Available courses');
-    expect(row.at(0).prop('isHeader')).toEqual(true);
-    expect(row.at(1).prop('textFirstCell')).toEqual('Course name');
-    expect(row.at(1).prop('textSecondCell')).toEqual('Credit');
-    expect(row.at(1).prop('isHeader')).toEqual(true);
-    expect(row.at(2).prop('textFirstCell')).toEqual('ES6');
-    expect(row.at(2).prop('textSecondCell')).toEqual('60');
-    expect(row.at(2).prop('isHeader')).toEqual(false);
-    expect(row.at(3).prop('textFirstCell')).toEqual('Webpack');
-    expect(row.at(3).prop('textSecondCell')).toEqual('20');
-    expect(row.at(3).prop('isHeader')).toEqual(false);
-    expect(row.at(4).prop('textFirstCell')).toEqual('React');
-    expect(row.at(4).prop('textSecondCell')).toEqual('40');
-    expect(row.at(4).prop('isHeader')).toEqual(false);
+
+  // Check that it renders the 5 different rows
+  it('renders the 5 different rows', () => {
+    const wrapper = shallow(<CourseList />);
+    const rows = wrapper.find('CourseListRow');
+    expect(rows).toHaveLength(5);
+
+    // Check the props of each row
+    expect(rows.at(0).props()).toEqual({ isHeader: true, textFirstCell: 'Available courses' });
+    expect(rows.at(1).props()).toEqual({ isHeader: true, textFirstCell: 'Course name', textSecondCell: 'Credit' });
+    expect(rows.at(2).props()).toEqual({ isHeader: false, textFirstCell: 'ES6', textSecondCell: '60' });
+    expect(rows.at(3).props()).toEqual({ isHeader: false, textFirstCell: 'Webpack', textSecondCell: '20' });
+    expect(rows.at(4).props()).toEqual({ isHeader: false, textFirstCell: 'React', textSecondCell: '40' });
   });
 });

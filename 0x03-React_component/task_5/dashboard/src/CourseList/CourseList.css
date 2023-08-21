@@ -13,6 +13,7 @@ th {
 th,
 td {
   width: 80%;
+  
 }
 
 table {
@@ -22,4 +23,10 @@ table {
 
 tr:nth-child(2) {
   text-align: left;
+  border: 1px solid #ddd;
 }
+
+tr:nth-child(0) {
+    text-align: center;
+    border: 1px solid #ddd;
+  }

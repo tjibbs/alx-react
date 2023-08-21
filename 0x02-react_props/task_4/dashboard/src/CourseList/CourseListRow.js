@@ -1,37 +1,25 @@
 import React from 'react';
-import './CourseList.css';
-import CourseListRow from './CourseListRow';
 
-const CourseList = () => {
+const CourseListRow = ({
+  isHeader,
+  textFirstCell,
+  textSecondCell,
+}) => {
+  const tdClass = isHeader ? 'th' : 'td';
+  const tdColspan = isHeader && textSecondCell === null ? 2 : 1;
+
   return (
-    <table className='course-list'>
-      <thead>
-        <CourseListRow textFirstCell='Available courses' isHeader={true} />
-        <CourseListRow
-          textFirstCell='Course name'
-          textSecondCell='Credit'
-          isHeader={true}
-        />
-      </thead>
-      <tbody>
-        <CourseListRow
-          textFirstCell='ES6'
-          textSecondCell='60'
-          isHeader={false}
-        />
-        <CourseListRow
-          textFirstCell='Webpack'
-          textSecondCell='20'
-          isHeader={false}
-        />
-        <CourseListRow
-          textFirstCell='React'
-          textSecondCell='40'
-          isHeader={false}
-        />
-      </tbody>
-    </table>
+    <tr>
+      <td className={tdClass} colSpan={tdColspan}>
+        {textFirstCell}
+      </td>
+      {textSecondCell && (
+        <td className={tdClass}>
+          {textSecondCell}
+        </td>
+      )}
+    </tr>
   );
 };
 
-export default CourseList;
+export default CourseListRow;
