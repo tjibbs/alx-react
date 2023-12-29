@@ -1,31 +1,35 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React from "react";
+import App from "./App";
+import Login from "../Login/Login";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import Notifications from "../Notifications/Notifications";
+import { shallow } from "enzyme";
 
-import App from './App';
+describe("App tests", () => {
+  it("renders without crashing", () => {
+    const component = shallow(<App />);
 
-describe('<App />', () => {
-    it("renders without crashing", () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper).not.toBeNull();
-    });
+    expect(component).toBeDefined();
+  });
+  it("should render Notifications component", () => {
+    const component = shallow(<App />);
 
-    it('renders the Notifications component', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find(Notifications).length).toBe(1);
-      });
-    
-      it('renders the Header component', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find(Header).length).toBe(1);
-      });
-    
-      it('renders the Login component', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find(Login).length).toBe(1);
-      });
-    
-      it('renders the Footer component', () => {
-        const wrapper = shallow(<App />);
-        expect(wrapper.find(Footer).length).toBe(1);
-      });
+    expect(component.contains(<Notifications />)).toBe(true);
+  });
+  it("should render Header component", () => {
+    const component = shallow(<App />);
+
+    expect(component.contains(<Header />)).toBe(true);
+  });
+  it("should render Login Component", () => {
+    const component = shallow(<App />);
+
+    expect(component.contains(<Login />)).toBe(true);
+  });
+  it("should render Footer component", () => {
+    const component = shallow(<App />);
+
+    expect(component.contains(<Footer />)).toBe(true);
+  });
 });

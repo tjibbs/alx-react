@@ -1,2 +1,1 @@
-# alx-react
-Introduction to react
+## 0x01. React intro

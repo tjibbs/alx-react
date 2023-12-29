@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, css } from 'aphrodite'
+import { StyleSheet, css } from "aphrodite";
 import closeIcon from "../assets/close-icon.png";
 import NotificationItem from "./NotificationItem";
 import PropTypes from "prop-types";
@@ -21,14 +21,13 @@ class Notifications extends Component {
   }
 
   render() {
-   
     return (
       <React.Fragment>
         <div className={css(styles.menuItem)}>
           <p>Your notifications</p>
         </div>
         {this.props.displayDrawer ? (
-          <div className={css(styles.notifications)}>
+          <div className={css(styles.Notifications)}>
             <button
               style={{
                 color: "#3a3a3a",
@@ -47,7 +46,7 @@ class Notifications extends Component {
                 console.log("Close button has been clicked");
               }}
             >
-              <img src={closeIcon} alt="close icon" width="10px" className={css(styles.img)} />
+              <img src={closeIcon} alt="close icon" width="10px" />
             </button>
             {this.props.listNotifications.length != 0 ? <p>Here is the list of notifications</p> : null}
             <ul>
@@ -63,31 +62,23 @@ class Notifications extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
+  Notifications: {
+    padding: "1em",
+    border: "2px dashed red",
+    position: "absolute",
+    top: "1.8em",
+    right: "0",
+  },
+
+  "notification-header": {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+
   menuItem: {
-    textAlign: 'right',
-    zIndex: 1,
-},
-notifications: {
-  padding: '0.5rem',
-  border: '1px dashed #e0354b',
-  position: 'absolute',
-  right: '1rem',
-  width: '25%',
-},
-img: {
-  width: '10px',
-},
-'[data-notification-type="default"]': {
-    color: '#0d0563',
-},  
-'[data-notification-type="urgent"]': {
-   color: '#e0354b',
-},
-'[data-urgent]': {
-  color: '#e0354b',
-}
+    textAlign: "right",
+  },
 });
 
 Notifications.propTypes = {

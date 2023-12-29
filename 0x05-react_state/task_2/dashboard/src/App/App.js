@@ -1,128 +1,146 @@
-import React from 'react'
-import { StyleSheet, css } from 'aphrodite'
-import Notifications from '../Notifications/Notifications'
-import Header from '../Header/Header'
-import Login from '../Login/Login'
-import Footer from '../Footer/Footer'
-import CourseList from '../CourseList/CourseList'
-import BodySection from '../BodySection/BodySection'
-import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom'
-import { getLatestNotification } from '../utils/utils'
-import { defaultUser, AppContext } from './AppContext'
+import React from "react";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import Login from "../Login/Login";
+import CourseList from "../CourseList/CourseList";
+import Notifications from "../Notifications/Notifications";
+import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
+import BodySection from "../BodySection/BodySection";
+import { StyleSheet, css } from "aphrodite";
+import PropTypes from "prop-types";
+import { getLatestNotification } from "../utils/utils";
+import { AppContext, user } from "./AppContext";
 
 class App extends React.Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       displayDrawer: false,
-      user: defaultUser,
-      logOut: () => {
-        this.setState({ user: defaultUser })
-      }
-    }
+      user: user,
+      logOut: this.logOut,
+    };
 
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this)
-    this.handleHideDrawer = this.handleHideDrawer.bind(this)
-    this.logIn = this.logIn.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.logIn = this.logIn.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
 
-  logIn (email, password) {
-    this.setState({ user: { email, password, isLoggedIn: true } })
-  }
+  listCourses = [
+    { id: 1, name: "ES6", credit: 60 },
+    { id: 2, name: "Webpack", credit: 20 },
+    { id: 3, name: "React", credit: 40 },
+  ];
 
-  handleDisplayDrawer () {
-    this.setState({ displayDrawer: true })
-  }
+  listNotifications = [
+    { id: 1, type: "default", value: "New course available" },
+    { id: 2, type: "urgent", value: "New resume available" },
+    { id: 3, type: "urgent", html: getLatestNotification() },
+  ];
 
-  handleHideDrawer () {
-    this.setState({ displayDrawer: false })
-  }
-
-  componentDidMount () {
-    window.addEventListener('keydown', this.handleKeydown)
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('keydown', this.handleKeydown)
-  }
-
-  handleKeydown = (e) => {
-    if (e.ctrlKey && e.key === 'h') {
-      alert('Logging you out')
-      this.state.logOut()
+  handleKeyPress(e) {
+    if (e.ctrlKey && e.key === "h") {
+      e.preventDefault();
+      alert("Logging you out");
+      this.props.logOut();
     }
   }
 
-  render () {
-    const listCourses = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 }
-    ]
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
+  }
 
-    const listNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: { __html: getLatestNotification() } }
-    ]
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
+  }
 
-    const v = { user: this.state.user, logOut: this.state.logOut }
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
 
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+
+  logIn(email, password) {
+    this.setState({
+      user: {
+        email,
+        password,
+        isLoggedIn: true,
+      },
+    });
+  }
+
+  logOut() {
+    this.setState({
+      user: user,
+    });
+  }
+
+  render() {
     return (
-      <AppContext.Provider value={v}>
-        <Notifications
-          listNotifications={listNotifications}
-          displayDrawer={this.state.displayDrawer}
-          handleDisplayDrawer={this.handleDisplayDrawer}
-          handleHideDrawer={this.handleHideDrawer}
-        />
-        <div className={css(styles.app)}>
-          <Header />
-          {this.state.user.isLoggedIn ? <hr className={css(styles.hr)}/> : null}
-          {this.state.user.isLoggedIn
-            ? (
-            <BodySectionWithMarginBottom title="Course list">
-              <CourseList listCourses={listCourses} />
-            </BodySectionWithMarginBottom>
-              )
-            : (
-            <BodySectionWithMarginBottom title="Log in to continue">
-              <Login logIn={this.logIn} />
-            </BodySectionWithMarginBottom>
-              )}
-          <BodySection title="News from the School">
-            <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Perspiciatis at tempora odio, necessitatibus repudiandae
-              reiciendis cum nemo sed asperiores ut molestiae eaque
-              aliquam illo ipsa iste vero dolor voluptates.
-            </p>
-          </BodySection>
-          {/* <hr className={css(styles.hr)} /> */}
-          <Footer styles={[styles.footer]} />
-        </div>
+      <AppContext.Provider
+        value={{
+          user: this.state.user,
+          logout: this.state.logOut,
+        }}
+      >
+        <React.Fragment>
+          <div className={css(styles.App)}>
+            <div className="heading-section">
+              <Notifications
+                listNotifications={this.listNotifications}
+                displayDrawer={this.state.displayDrawer}
+                handleDisplayDrawer={this.handleDisplayDrawer}
+                handleHideDrawer={this.handleHideDrawer}
+              />
+              <Header />
+            </div>
+            {this.state.user.isLoggedIn ? (
+              <BodySectionWithMarginBottom title="Course list">
+                <CourseList listCourses={this.listCourses} />
+              </BodySectionWithMarginBottom>
+            ) : (
+              <BodySectionWithMarginBottom title="Log in to continue">
+                <Login logIn={this.logIn} />
+              </BodySectionWithMarginBottom>
+            )}
+            <BodySection title="News from the school">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis at tempora odio, necessitatibus repudiandae reiciendis cum nemo sed asperiores ut molestiae eaque aliquam illo
+                ipsa iste vero dolor voluptates.
+              </p>
+            </BodySection>
+            <Footer />
+          </div>
+        </React.Fragment>
       </AppContext.Provider>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
-  app: { fontFamily: 'Arial' },
-
-  hr: {
-    height: '2px',
-    backgroundColor: '#E0344B',
-    border: 'none'
+  App: {
+    height: "100vh",
+    maxWidth: "100vw",
+    position: "relative",
+    fontFamily: "Arial, Helvetica, sans-serif",
   },
+});
 
-  footer: {
-    height: '50px',
-    fontStyle: 'italic',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
+App.defaultProps = {
+  isLoggedIn: false,
+  logOut: () => {
+    return;
+  },
+};
 
-export default App
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  logOut: PropTypes.func,
+};
+
+export default App;

@@ -1,39 +1,26 @@
-import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER } from './uiActionTypes';
+import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER } from "./uiActionTypes";
 
 export function login(email, password) {
-    return {
-        type: LOGIN,
-        payload: {
-            user: {
-                email,
-                password
-            }  
-        }
-    }
-} 
-
-export const boundlogin = (email, password) => dispatch(login(email, password));
-
-export function logout() {
-    return {
-        type: LOGOUT,
-    }
+  return {
+    type: LOGIN,
+    user: { email, password },
+  };
 }
 
-export const boundlogout = () => dispatch(logout());
+export const boundLogin = (email, password) => dispatch(login(email, password));
 
-export function displayNotificationDrawer() {
-    return {
-        type: DISPLAY_NOTIFICATION_DRAWER,
-    }
-}
+export const logout = () => ({ type: LOGOUT });
 
-export const bounddisplayNotificationDrawer= () => dispatch(displayNotificationDrawer);
+export const boundLogout = () => dispatch(logout());
 
-export function hideNotificationDrawer() {
-    return {
-        type: HIDE_NOTIFICATION_DRAWER,
-    }
-}
+export const displayNotificationDrawer = () => ({
+  type: DISPLAY_NOTIFICATION_DRAWER,
+});
 
-export const boundhideNotificationDrawer = () => dispatch(hideNotificationDrawer());
+export const boundDisplayNotificationDrawer = () => dispatch(displayNotificationDrawer());
+
+export const hideNotificationDrawer = () => ({
+  type: HIDE_NOTIFICATION_DRAWER,
+});
+
+export const boundHideNotificationDrawer = () => dispatch(hideNotificationDrawer());

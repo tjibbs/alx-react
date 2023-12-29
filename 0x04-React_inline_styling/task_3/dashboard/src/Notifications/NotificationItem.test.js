@@ -1,6 +1,14 @@
 import React from "react";
 import NotificationItem from "./NotificationItem";
 import { shallow } from "enzyme";
+import { StyleSheetTestUtils } from "aphrodite";
+
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
 describe("rendering components", () => {
   it("renders NotificationItem component without crashing", () => {
@@ -10,18 +18,17 @@ describe("rendering components", () => {
   });
 
   it('renders correct html from type="default" value="test" props', () => {
-    const wrapper = shallow(<NotificationItem type="default" value="test" />);
+    const wrapper = shallow(<NotificationItem />);
 
-   expect(wrapper.hasClass("notificationItem")).toBe(true);
-   expect(wrapper.find('[data-notification-type="default"]').length).toBe(1);
+    wrapper.setProps({ type: "default", value: "test" });
+    expect(wrapper.html()).toEqual('<li class="default_1tsdo2i" data-notification-type="default">test</li>');
   });
 
   it('renders correct html from  html="<u>test</u>" props', () => {
-    const wrapper = shallow(<NotificationItem html="<u>test</u>" />);
+    const wrapper = shallow(<NotificationItem />);
 
-   expect(wrapper.hasClass("notificationItem")).toBe(true);
-   expect(wrapper.hasClass("urgent")).toBe(true);
-   expect(wrapper.find('[data-urgent="true"]').length).toBe(1);
+    wrapper.setProps({ html: "<u>test</u>" });
+    expect(wrapper.html()).toEqual('<li data-urgent="true" class="urgent_137u7ef"><u>test</u></li>');
   });
 });
 

@@ -1,58 +1,53 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CourseShape from './CourseShape';
-import CourseListRow from './CourseListRow';
-import { StyleSheet, css } from 'aphrodite';
+import React from "react";
+import { StyleSheet, css } from "aphrodite";
+import CourseListRow from "./CourseListRow";
+import PropTypes from "prop-types";
+import CourseShape from "./CourseShape";
 
-const CourseList = ({ listCourses }) => {
-  const styles = StyleSheet.create({
-    table: {
-      marginTop: '2em',
-      width: '100%',
-      border: '1px solid #ddd',
-      fontSize: '1.2rem',
-      marginBottom: '15em',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-    th: {
-      borderBottom: '1px solid #ddd',
-    },
-    td: {
-      width: '80%', 
-    },
-    th: {
-      width: '80%', 
-    },   
-    tr: {
-      textAlign: 'left',
-      border: '1px solid #ddd',
-    }
-
-  });
+function CourseList({ listCourses }) {
   return (
     <table id="CourseList" className={css(styles.table)}>
-      <thead >
-        <CourseListRow isHeader={true} textFirstCell="Available courses" />
-        <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
+      <thead>
+        <CourseListRow textFirstCell="Available courses" isHeader={true} />
+        <CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />
       </thead>
-      <tbody className={css(styles.body)}>
-        {listCourses.length === 0 ? (
-          <CourseListRow isHeader={false} textFirstCell="No course available yet" />
+      <tbody>
+        {listCourses.length > 0 ? (
+          listCourses.map(({ id, name, credit }) => <CourseListRow key={id} textFirstCell={name} textSecondCell={credit} />)
         ) : (
-          listCourses.map((course) => (
-            <CourseListRow
-              key={course.id}
-              isHeader={false}
-              textFirstCell={course.name}
-              textSecondCell={course.credit.toString()}
-            />
-          ))
+          <CourseListRow textFirstCell="No course available yet" />
         )}
       </tbody>
     </table>
   );
-};
+}
+
+const styles = StyleSheet.create({
+  table: {
+    marginTop: "2em",
+    width: "100%",
+    border: "1px solid #ddd",
+    fontSize: "1.2rem",
+    marginBottom: "15em",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+
+  th: {
+    borderBottom: "1px solid #ddd",
+    width: "80%",
+  },
+
+  td: {
+    width: "80%",
+  },
+
+  tr: {
+    "nth-child(2)": {
+      textAlign: "left",
+    },
+  },
+});
 
 CourseList.propTypes = {
   listCourses: PropTypes.arrayOf(CourseShape),

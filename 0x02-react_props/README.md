@@ -1,2 +1,1 @@
-# alx-react
-Introduction to react-props
+## 0x02. React props

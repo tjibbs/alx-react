@@ -1,37 +1,65 @@
-/* eslint-disable semi */
-/* eslint-disable no-undef */
-import React from 'react';
-import { shallow } from 'enzyme';
-import Footer from './Footer';
-import { AppContext } from '../App/AppContext';
+/**
+ * @jest-environment jsdom
+ */
+import { shallow, mount } from "enzyme";
+import React from "react";
+import Footer from "./Footer";
+import { getFullYear, getFooterCopy } from "../utils/utils";
+import { AppContext } from "../App/AppContext";
 
-describe('<Footer />', () => {
-  it('renders without crashing', () => {
-    shallow(<Footer />);
-  });
-
-  it('renders the text "Copyright"', () => {
+describe("Footer test", () => {
+  it("should render without crashing", () => {
     const wrapper = shallow(<Footer />);
-    expect(wrapper.text()).toContain('Copyright');
+    expect(wrapper.exists()).toEqual(true);
   });
 
-  it('does not display link when user is logged out within context', () => {
-    const contextValue = { user: { isLoggedIn: false } }; // Simulate logged out user
-    const wrapper = shallow(
-      <AppContext.Provider value={contextValue}>
+  it('Footer component renders "Copyright ${getFullYear()} - ${getFooterCopy(true)}"', () => {
+    const wrapper = mount(<Footer />);
+
+    expect(wrapper.find("p").text()).toEqual(`Copyright ${getFullYear()} - ${getFooterCopy(false)}`);
+  });
+
+  it("Tests that there is no link rendered when user is logged out within context", () => {
+    const context = {
+      user: {
+        email: "",
+        password: "",
+        isLoggedIn: false,
+      },
+    };
+
+    const wrapper = mount(
+      <AppContext.Provider value={context}>
         <Footer />
       </AppContext.Provider>
     );
-    expect(wrapper.find('a')).toHaveLength(0); // Verify that link is not displayed
+
+    expect(wrapper.find("a").length).toBe(0);
+    expect(wrapper.find("a").exists()).toBe(false);
+    expect(wrapper.text()).not.toContain("Contact us");
+
+    wrapper.unmount();
   });
 
-  it('displays link when user is logged in within context', () => {
-    const contextValue = { user: { isLoggedIn: true } }; // Simulate logged in user
-    const wrapper = shallow(
-      <AppContext.Provider value={contextValue}>
+  it("Tests that there is a link rendered when user is logged in within context", () => {
+    const context = {
+      user: {
+        email: "",
+        password: "",
+        isLoggedIn: true,
+      },
+    };
+
+    const wrapper = mount(
+      <AppContext.Provider value={context}>
         <Footer />
       </AppContext.Provider>
     );
-    expect(wrapper.find('a')).toHaveLength(1); // Verify that link is displayed
+
+    expect(wrapper.find("a").length).toBe(1);
+    expect(wrapper.find("a").exists()).toBe(true);
+    expect(wrapper.text()).toContain("Contact us");
+
+    wrapper.unmount();
   });
 });

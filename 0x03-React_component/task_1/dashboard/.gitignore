@@ -1,5 +1,3 @@
-node_modules/
-src/__mocks__/
+node_modules
 package-lock.json
-jestim.txt
-dist/bundle.js.LICENSE.txt
+*LICENSE*

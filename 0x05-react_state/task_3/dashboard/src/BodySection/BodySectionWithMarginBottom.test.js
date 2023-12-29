@@ -4,15 +4,14 @@ import BodySectionWithMarginBottom from "./BodySectionWithMarginBottom";
 import BodySection from "./BodySection";
 import { StyleSheetTestUtils } from "aphrodite";
 
-describe("BodySectionWithMarginBottom tests", () => {
-  beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-  });
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  });
-  
+describe("BodySectionWithMarginBottom tests", () => {
   it("should apply margin bottom to child component", () => {
     const wrapper = shallow(<BodySectionWithMarginBottom title="test title" />);
 

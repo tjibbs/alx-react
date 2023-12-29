@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, css } from 'aphrodite'
+import { StyleSheet, css } from "aphrodite";
 import closeIcon from "../assets/close-icon.png";
 import NotificationItem from "./NotificationItem";
 import PropTypes from "prop-types";
@@ -21,14 +21,13 @@ class Notifications extends Component {
   }
 
   render() {
-   
     return (
       <React.Fragment>
         <div className={css(styles.menuItem)}>
           <p>Your notifications</p>
         </div>
         {this.props.displayDrawer ? (
-          <div className={css(styles.notifications)}>
+          <div className={css(styles.Notifications)}>
             <button
               style={{
                 color: "#3a3a3a",
@@ -47,7 +46,7 @@ class Notifications extends Component {
                 console.log("Close button has been clicked");
               }}
             >
-              <img src={closeIcon} alt="close icon" width="10px" className={css(styles.img)} />
+              <img src={closeIcon} alt="close icon" width="10px" />
             </button>
             {this.props.listNotifications.length != 0 ? <p>Here is the list of notifications</p> : null}
             <ul>
@@ -63,50 +62,34 @@ class Notifications extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
-  notifications: {
-    padding: '0.5rem',
-    border: '1px dashed #e0354b',
-    position: 'absolute',
-    right: '1rem',
-    width: '25%',
+  Notifications: {
+    padding: "1em",
+    border: "2px dashed red",
+    position: "absolute",
+    top: "1.8em",
+    right: "0",
 
-    '@media (max-width: 450px)': {
-      display: 'block',
-      height: '100%',
-      width: '100%',
-      position: 'absolute',
-      left: '0',
-      marginLeft: '0',
-      marginRight: '0',
-      border: 'none',
-      fontSize: '20px',
-      padding: '0',
-      backgroundColor: '#fff',
-      border: '10px solid gray'
+    "@media (max-width: 375px)": {
+      display: "block",
+      height: "100vh",
+      width: "100vw",
+      marginLeft: "auto",
+      marginRight: "auto",
+      border: "none",
+      fontSize: "20px",
+      padding: "0",
     },
   },
-  img: {
-    width: '10px',
+
+  "notification-header": {
+    display: "flex",
+    justifyContent: "space-between",
   },
+
   menuItem: {
-    textAlign: 'right',
-    zIndex: 1,
-},
-  // "notification-header": {
-  //   display: "flex",
-  //   justifyContent: "space-between",
-  // },
-// '[data-notification-type="default"]': {
-//     color: '#0d0563',
-// },  
-// '[data-notification-type="urgent"]': {
-//    color: '#e0354b',
-// },
-// '[data-urgent]': {
-//   color: '#e0354b',
-// }
+    textAlign: "right",
+  },
 });
 
 Notifications.propTypes = {

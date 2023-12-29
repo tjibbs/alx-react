@@ -31,6 +31,7 @@ class App extends React.Component {
 
   handleKeyPress(e) {
     if (e.ctrlKey && e.key === "h") {
+      e.preventDefault();
       alert("Logging you out");
       this.props.logOut();
     }
@@ -44,19 +45,10 @@ class App extends React.Component {
   }
 
   render() {
-
-    const styles = StyleSheet.create({
-      app: {
-        height: '100vh',
-        maxWidth: '100vw',
-        position: 'relative',
-        fontFamily: 'Arial, Helvetica, sans-serif',
-      },
-    })
     return (
       <React.Fragment>
-        <div className={css(styles.app)}>
-          <div className={css(styles.headingSection)}>
+        <div className={css(styles.App)}>
+          <div className="heading-section">
             <Notifications listNotifications={this.listNotifications} />
             <Header />
           </div>
@@ -81,6 +73,15 @@ class App extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  App: {
+    height: "100vh",
+    maxWidth: "100vw",
+    position: "relative",
+    fontFamily: "Arial, Helvetica, sans-serif",
+  },
+});
 
 App.defaultProps = {
   isLoggedIn: false,

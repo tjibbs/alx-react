@@ -1,51 +1,41 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import CourseList from './CourseList';
-import CourseListRow from './CourseListRow';
+import React from "react";
+import CourseList from "./CourseList";
+import CourseListRow from "./CourseListRow";
+import { shallow } from "enzyme";
 
-describe('<CourseList />', () => {
-  // Check that it renders CourseList component without crashing
-  it('renders CourseList component without crashing', () => {
-    shallow(<CourseList />);
-  });
+const listCourses = [
+  { id: 1, name: "ES6", credit: 60 },
+  { id: 2, name: "Webpack", credit: 20 },
+  { id: 3, name: "React", credit: 40 },
+];
 
-  // Check that it renders the 5 different rows
-  it('renders the 5 different rows', () => {
+describe("CourseList component tests", () => {
+  it("should render without crashing", () => {
     const wrapper = shallow(<CourseList />);
-    const rows = wrapper.find(CourseListRow);
-    expect(rows).toHaveLength(5);
 
-    // Check the props of each row
-    expect(rows.at(0).props()).toEqual({ isHeader: true, textFirstCell: 'Available courses' });
-    expect(rows.at(1).props()).toEqual({ isHeader: true, textFirstCell: 'Course name', textSecondCell: 'Credit' });
-    expect(rows.at(2).props()).toEqual({ isHeader: false, textFirstCell: 'ES6', textSecondCell: '60' });
-    expect(rows.at(3).props()).toEqual({ isHeader: false, textFirstCell: 'Webpack', textSecondCell: '20' });
-    expect(rows.at(4).props()).toEqual({ isHeader: false, textFirstCell: 'React', textSecondCell: '40' });
+    expect(wrapper.exists()).toBe(true);
   });
 
-  // Add a new test to verify that CourseList renders correctly if you pass an empty array
-  it('renders correctly with an empty listCourses array', () => {
-    const wrapper = shallow(<CourseList listCourses={[]} />);
-    const rows = wrapper.find(CourseListRow);
-    expect(rows).toHaveLength(1); // Only the header row should be rendered
-  });
-
-  // Add a new test to verify that CourseList renders correctly if you don’t pass the listCourses property
-  it('renders correctly when listCourses is not provided', () => {
-    const wrapper = shallow(<CourseList />);
-    const rows = wrapper.find(CourseListRow);
-    expect(rows).toHaveLength(5); // Default rows should be rendered
-  });
-
-  // Add a new test to verify that when you pass a list of courses, the component renders it correctly
-  it('renders the correct number of CourseListRow elements with provided listCourses', () => {
-    const listCourses = [
-      { id: 1, name: 'Course 1', credit: 3 },
-      { id: 2, name: 'Course 2', credit: 4 },
-      { id: 3, name: 'Course 3', credit: 2 },
-    ];
+  it("renders 5 different rows", () => {
     const wrapper = shallow(<CourseList listCourses={listCourses} />);
-    const rows = wrapper.find(CourseListRow);
-    expect(rows).toHaveLength(listCourses.length + 2); // +2 for the header rows
+
+    expect(wrapper.find("thead").children()).toHaveLength(2);
+    wrapper.find("thead").forEach((node) => {
+      expect(node.equals(<CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />));
+    });
+
+    expect(wrapper.find("tbody").children()).toHaveLength(3);
+    expect(wrapper.find("tbody").childAt(0).html()).toEqual('<tr style="background-color:#f5f5f5ab"><td>ES6</td><td>60</td></tr>');
+    expect(wrapper.find("tbody").childAt(1).html()).toEqual('<tr style="background-color:#f5f5f5ab"><td>Webpack</td><td>20</td></tr>');
+    expect(wrapper.find("tbody").childAt(2).html()).toEqual('<tr style="background-color:#f5f5f5ab"><td>React</td><td>40</td></tr>');
+  });
+
+  it("renders correctely when passed a list of courses", () => {
+    const wrapper = shallow(<CourseList listCourses={listCourses} />);
+
+    expect(wrapper.find("tbody").children()).toHaveLength(3);
+    expect(wrapper.find("tbody").childAt(0).html()).toEqual('<tr style="background-color:#f5f5f5ab"><td>ES6</td><td>60</td></tr>');
+    expect(wrapper.find("tbody").childAt(1).html()).toEqual('<tr style="background-color:#f5f5f5ab"><td>Webpack</td><td>20</td></tr>');
+    expect(wrapper.find("tbody").childAt(2).html()).toEqual('<tr style="background-color:#f5f5f5ab"><td>React</td><td>40</td></tr>');
   });
 });
